@@ -48,3 +48,9 @@ Post:
              -H 'content-type: multipart/form-data; boundary=Boundry' \
              -F 'name='\''test'\''' \
              -F 'file_original=@/path/to/file.png'
+
+
+# Testing
+
+        pip install requirements_test.txt
+        pytest
