@@ -29,3 +29,35 @@ DATABASES = {
 # APIs should use UTC and leave display of times up to clients
 TIME_ZONE = 'UTC'
 USE_TZ = True
+
+
+# File storage in production wouldn't be done via envars, but an
+# AWS policy between the process and bucket.
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_S3_REGION_NAME = 'eu-west-2'
+AWS_STORAGE_BUCKET_NAME = 'zypertest'
+AWS_QUERYSTRING_AUTH = False
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    'PAGE_SIZE': 100,
+    # At this point I don't know how this API auths.
+    # Perhaps there isn't any. So dissabling
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
+    'UNAUTHENTICATED_USER': None,
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.MultiPartParser'
+    ),
+}
+
+CELERY_BROKER_URL = 'amqp://localhost'
